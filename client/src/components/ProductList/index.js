@@ -8,10 +8,12 @@ import ProductItem from "../ProductItem";
 import { QUERY_PRODUCTS } from "../../utils/queries";
 import spinner from "../../assets/spinner.gif";
 import store from '../../utils/store';
+import { useDispatch } from 'react-redux';
 
 function ProductList() {
   // const [state, dispatch] = useStoreContext();
   const state = store.getState();
+  const dispatch = useDispatch();
   const { currentCategory } = state;
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
@@ -20,7 +22,7 @@ function ProductList() {
     // if there's data to be stored
     if (data) {
       // let's store it in the global state object
-      store.dispatch({
+      dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products,
       });
@@ -33,13 +35,13 @@ function ProductList() {
       // since we're offline, get all of the data from the `products` store
       idbPromise("products", "get").then((products) => {
         // use retrieved data to set global state for offline browsing
-        store.dispatch({
+        dispatch({
           type: UPDATE_PRODUCTS,
           products: products,
         });
       });
     }
-  }, [data, store.dispatch]);
+  }, [data, loading, dispatch]);
 
   function filterProducts() {
     if (!currentCategory) {

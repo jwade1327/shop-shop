@@ -8,10 +8,12 @@ import { QUERY_CATEGORIES } from "../../utils/queries";
 // import { useStoreContext } from "../../utils/GlobalState";
 import { idbPromise } from "../../utils/helpers";
 import store from '../../utils/store';
+import { useDispatch } from 'react-redux';
 
 function CategoryMenu() {
   // const [state, dispatch] = useStoreContext();
   const state = store.getState();
+  const dispatch = useDispatch();
   const { categories } = state;
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
@@ -20,7 +22,7 @@ function CategoryMenu() {
     // if categoryData exists or has changed from the response of useQuery, then run dispatch()
     if (categoryData) {
       // execute our dispatch function with our action object indicating the type of action and the data to set our state for categories to
-      store.dispatch({
+      dispatch({
         type: UPDATE_CATEGORIES,
         categories: categoryData.categories,
       });
@@ -31,16 +33,16 @@ function CategoryMenu() {
       });
     } else if (!loading) { // pulls from indexedDB storage
       idbPromise('categories', 'get').then(categories => {
-        store.dispatch({
+        dispatch({
           type: UPDATE_CATEGORIES,
           categories: categories
         });
       });
     }
-  }, [categoryData, store.dispatch]);
+  }, [categoryData, loading, dispatch]);
 
   const handleClick = (id) => {
-    store.dispatch({
+    dispatch({
       type: UPDATE_CURRENT_CATEGORY,
       currentCategory: id,
     });

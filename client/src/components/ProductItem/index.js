@@ -5,12 +5,14 @@ import { pluralize } from "../../utils/helpers";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 import store from '../../utils/store';
+import { useDispatch } from 'react-redux';
 
 function ProductItem(item) {
   const { image, name, _id, price, quantity } = item;
 
   // const [state, dispatch] = useStoreContext();
   const state = store.getState();
+  const dispatch = useDispatch();
 
   const { cart } = state;
 
@@ -20,7 +22,7 @@ function ProductItem(item) {
 
     // if there was a match, call UPDATE with a new purchase quantity
     if (itemInCart) {
-      store.dispatch({
+      dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: _id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
@@ -32,7 +34,7 @@ function ProductItem(item) {
       });
 
     } else {
-      store.dispatch({
+      dispatch({
         type: ADD_TO_CART,
         product: { ...item, purchaseQuantity: 1 },
       });

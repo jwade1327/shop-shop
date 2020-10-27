@@ -15,19 +15,19 @@ const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
   const state = store.getState();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
-      store.dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
     }
 
     if (!state.cart.length) {
       getCart();
     }
-  }, [state.cart.length, store.dispatch]);
+  }, [state.cart.length, dispatch]);
 
   useEffect(() => {
     if (data) {
@@ -35,10 +35,10 @@ const Cart = () => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   function toggleCart() {
-    store.dispatch({ type: TOGGLE_CART });
+    dispatch({ type: TOGGLE_CART });
   }
 
   function calculateTotal() {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { idbPromise } from "../utils/helpers";
+import { useDispatch } from 'react-redux';
 
 // import { useStoreContext } from "../utils/GlobalState";
 import {
@@ -19,6 +20,7 @@ import Cart from "../components/Cart";
 function Detail() {
   // const [state, dispatch] = useStoreContext();
   const state = store.getState();
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
@@ -33,7 +35,7 @@ function Detail() {
     }
     // retrieved from server
     else if (data) {
-      store.dispatch({
+      dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products,
       });
@@ -45,19 +47,19 @@ function Detail() {
     // get cache from idb
     else if (!loading) {
       idbPromise("products", "get").then((indexedProducts) => {
-        store.dispatch({
+        dispatch({
           type: UPDATE_PRODUCTS,
           products: indexedProducts,
         });
       });
     }
-  }, [products, data, loading, store.dispatch, id]);
+  }, [products, data, loading, dispatch, id]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
 
     if (itemInCart) {
-      store.dispatch({
+      dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
@@ -68,7 +70,7 @@ function Detail() {
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
     } else {
-      store.dispatch({
+      dispatch({
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 },
       });
@@ -78,7 +80,7 @@ function Detail() {
   };
 
   const removeFromCart = () => {
-    store.dispatch({
+    dispatch({
       type: REMOVE_FROM_CART,
       _id: currentProduct._id,
     });
