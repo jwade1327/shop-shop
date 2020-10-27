@@ -3,27 +3,29 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { idbPromise } from "../utils/helpers";
 
-import { useStoreContext } from "../utils/GlobalState";
+// import { useStoreContext } from "../utils/GlobalState";
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
   UPDATE_PRODUCTS,
 } from "../utils/actions";
+import store from '../utils/store';
 
 import { QUERY_PRODUCTS } from "../utils/queries";
 import spinner from "../assets/spinner.gif";
 import Cart from "../components/Cart";
 
 function Detail() {
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
+  const state = store.getState();
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   const { products, cart } = state;
-
+  console.log(state);
   useEffect(() => {
     // already in global store
     if (products.length) {
@@ -31,7 +33,7 @@ function Detail() {
     }
     // retrieved from server
     else if (data) {
-      dispatch({
+      store.dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products,
       });
@@ -43,19 +45,19 @@ function Detail() {
     // get cache from idb
     else if (!loading) {
       idbPromise("products", "get").then((indexedProducts) => {
-        dispatch({
+        store.dispatch({
           type: UPDATE_PRODUCTS,
           products: indexedProducts,
         });
       });
     }
-  }, [products, data, loading, dispatch, id]);
+  }, [products, data, loading, store.dispatch, id]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
 
     if (itemInCart) {
-      dispatch({
+      store.dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
@@ -66,7 +68,7 @@ function Detail() {
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
     } else {
-      dispatch({
+      store.dispatch({
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 },
       });
@@ -76,7 +78,7 @@ function Detail() {
   };
 
   const removeFromCart = () => {
-    dispatch({
+    store.dispatch({
       type: REMOVE_FROM_CART,
       _id: currentProduct._id,
     });

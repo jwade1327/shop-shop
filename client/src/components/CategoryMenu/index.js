@@ -5,12 +5,13 @@ import {
 } from "../../utils/actions";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_CATEGORIES } from "../../utils/queries";
-import { useStoreContext } from "../../utils/GlobalState";
+// import { useStoreContext } from "../../utils/GlobalState";
 import { idbPromise } from "../../utils/helpers";
+import store from '../../utils/store';
 
 function CategoryMenu() {
-  const [state, dispatch] = useStoreContext();
-
+  // const [state, dispatch] = useStoreContext();
+  const state = store.getState();
   const { categories } = state;
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
@@ -19,7 +20,7 @@ function CategoryMenu() {
     // if categoryData exists or has changed from the response of useQuery, then run dispatch()
     if (categoryData) {
       // execute our dispatch function with our action object indicating the type of action and the data to set our state for categories to
-      dispatch({
+      store.dispatch({
         type: UPDATE_CATEGORIES,
         categories: categoryData.categories,
       });
@@ -30,16 +31,16 @@ function CategoryMenu() {
       });
     } else if (!loading) { // pulls from indexedDB storage
       idbPromise('categories', 'get').then(categories => {
-        dispatch({
+        store.dispatch({
           type: UPDATE_CATEGORIES,
           categories: categories
         });
       });
     }
-  }, [categoryData, dispatch]);
+  }, [categoryData, store.dispatch]);
 
   const handleClick = (id) => {
-    dispatch({
+    store.dispatch({
       type: UPDATE_CURRENT_CATEGORY,
       currentCategory: id,
     });
