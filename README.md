@@ -6,7 +6,7 @@ This is a full-stack MERN website using React-Redux on the front-end. This proje
 
 You can view the deployed application [here](https://vast-tor-95384.herokuapp.com/) and the github [here](https://github.com/kwedwick/shop-shop). 
 
-![Image of completed webpage](public/assets/images/final-screenshot.jpg)
+![Image of completed webpage](client/public/images/final-screenshot.jpg)
     
 ## Table of Contents 
 * [Installation](#Installation) 
