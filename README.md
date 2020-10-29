@@ -3,6 +3,10 @@
 ## Description
 
 This is a full-stack MERN website using React-Redux on the front-end. This project was crafting using React's storeContex GlobalState and then refactored using Redux. I kept the old refactored code so showcase the switch between the two. Apollo GraphQL manages the server request from the front-end. Concurrently is the intermediary package that handles the front and backend server. In addition, Stripe-test has been set up to show how to purchase items from the store. 
+
+You can view the deployed application [here](https://vast-tor-95384.herokuapp.com/) and the github [here](https://github.com/kwedwick/shop-shop). 
+
+![Image of completed webpage](public/assets/images/final-screenshot.jpg)
     
 ## Table of Contents 
 * [Installation](#Installation) 
