@@ -27,3 +27,7 @@ You're free to use and expand upon this project on your own. Currently there isn
 ## License
     
 This project falls under the isc license. Please visit [isc](https://choosealicense.com/licenses/isc) to learn more.
+
+## Questions
+The author of this project is Keegan. You can reach them via [email](mailto:kwedwick@gmail.com).
+To see more projects from this author, visit their [GitHub](https://github.com/kwedwick).
