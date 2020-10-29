@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { idbPromise } from "../utils/helpers";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import { useStoreContext } from "../utils/GlobalState";
 import {
@@ -20,6 +20,7 @@ import Cart from "../components/Cart";
 function Detail() {
   // const [state, dispatch] = useStoreContext();
   const state = store.getState();
+  useSelector(state => state);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -27,7 +28,7 @@ function Detail() {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   const { products, cart } = state;
-  console.log(state);
+  
   useEffect(() => {
     // already in global store
     if (products.length) {

@@ -19,7 +19,7 @@ const initialState = {
     currentCategory: "",
 }
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     // if action type value is the value of `update_products`, return a new state object with an updated products array
     case UPDATE_PRODUCTS:
@@ -94,7 +94,6 @@ const reducer = (state = initialState, action) => {
       };
     // if it's none of these actions, do not update state at all and keep things the same!
     default:
-      console.log(action.type);
       return state;
   }
 };

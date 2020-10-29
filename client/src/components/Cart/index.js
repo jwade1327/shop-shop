@@ -15,6 +15,7 @@ const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
   const state = store.getState();
+  
   const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
@@ -72,8 +73,6 @@ const Cart = () => {
       variables: { products: productIds },
     });
   }
-
-  console.log(state);
 
   return (
     <div className="cart">

@@ -3,12 +3,13 @@ import ProductList from "../components/ProductList";
 import CategoryMenu from "../components/CategoryMenu";
 import Cart from "../components/Cart";
 import store from "../utils/store";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  
+  const state = store.getState();
+  useSelector(state => state);
   return (
     <div className="container">
-      {console.log( "This is the store", store.getState())}
       <CategoryMenu />
       <ProductList />
       <Cart />

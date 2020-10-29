@@ -8,12 +8,13 @@ import ProductItem from "../ProductItem";
 import { QUERY_PRODUCTS } from "../../utils/queries";
 import spinner from "../../assets/spinner.gif";
 import store from '../../utils/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function ProductList() {
   // const [state, dispatch] = useStoreContext();
   const state = store.getState();
   const dispatch = useDispatch();
+  useSelector(state => state);
   const { currentCategory } = state;
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);

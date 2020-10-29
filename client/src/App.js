@@ -16,6 +16,7 @@ import Success from "./pages/Success";
 import { Provider } from 'react-redux';
 import store from './utils/store';
 
+
 const client = new ApolloClient({
   request: (operation) => {
     const token = localStorage.getItem('id_token')
